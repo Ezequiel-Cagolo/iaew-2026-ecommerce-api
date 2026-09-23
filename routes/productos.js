@@ -1,5 +1,6 @@
 const express = require('express');
 const Producto = require('../models/Producto');
+const { requireApiKey } = require('../middleware/apiKey');
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', requireApiKey, async (req, res) => {
   try {
     if (!req.body.nombre || !req.body.categoria) {
       return res.status(400).json({ error: 'Faltan datos obligatorios' });
