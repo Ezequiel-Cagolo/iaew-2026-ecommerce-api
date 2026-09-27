@@ -58,6 +58,14 @@ const pedidoSchema = new mongoose.Schema(
     },
     confirmadoEn: {
       type: Date
+    },
+    notificacionEstado: {
+      type: String,
+      enum: ['pendiente', 'procesada'],
+      default: 'pendiente'
+    },
+    notificadoEn: {
+      type: Date
     }
   },
   { timestamps: true }

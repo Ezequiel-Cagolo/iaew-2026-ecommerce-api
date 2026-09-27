@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const Pedido = require('../models/Pedido');
 const Producto = require('../models/Producto');
 const { requireScope } = require('../middleware/auth0');
+const { publicarPedidoConfirmado } = require('../lib/rabbit');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -101,7 +103,25 @@ router.post('/:id/confirmar', requireScope('confirm:pedidos'), async (req, res) 
     pedido.confirmadoEn = new Date();
     await pedido.save();
 
-    res.json(pedido);
+    const evento = {
+      eventId: crypto.randomUUID(),
+      type: 'pedido.confirmado',
+      version: 1,
+      occurredAt: pedido.confirmadoEn.toISOString(),
+      data: { pedidoId: pedido.id }
+    };
+
+    try {
+      await publicarPedidoConfirmado(evento);
+    } catch (error) {
+      return res.status(503).json({
+        error: 'Pedido confirmado, pero no se pudo publicar la notificación',
+        detalle: 'Consultar el estado del pedido antes de reintentar',
+        pedidoId: pedido.id
+      });
+    }
+
+    res.json({ pedido, evento });
   } catch (error) {
     res.status(500).json({ error: 'Error al confirmar pedido' });
   }
