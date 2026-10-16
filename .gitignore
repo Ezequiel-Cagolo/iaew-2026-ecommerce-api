@@ -8,3 +8,9 @@ coverage/
 .vscode/
 .DS_Store
 npm-debug.log*
+
+# Capturas de Clase 05: se incluyen en la entrega ZIP, no en Git.
+/evidencias/*.png
+/evidencias/*.jpg
+/evidencias/*.jpeg
+/entrega-clase-05*.zip

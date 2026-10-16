@@ -1,6 +1,6 @@
 # iaew-2026-ecommerce-api
 
-API REST hecha con **Express**, **MongoDB** y **Mongoose** para una mini plataforma de e-commerce. La confirmación de un pedido publica `pedido.confirmado` en RabbitMQ; un worker separado procesa la notificación. Un pedido no puede confirmarse dos veces (responde `409 Conflict`).
+API REST hecha con **Express**, **MongoDB** y **Mongoose** para una mini plataforma de e-commerce. La confirmación de un pedido publica `pedido.confirmado` en RabbitMQ; un worker separado procesa la notificación. La confirmación requiere Idempotency-Key: repetir la misma clave devuelve 200 con replay y el mismo evento; una clave incompatible devuelve 409. El worker incorpora deduplicación por eventId, retry limitado y DLQ.
 
 ## Endpoints principales
 
