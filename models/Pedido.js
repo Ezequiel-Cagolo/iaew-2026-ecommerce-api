@@ -64,6 +64,21 @@ const pedidoSchema = new mongoose.Schema(
       enum: ['pendiente', 'procesada'],
       default: 'pendiente'
     },
+    confirmacionIdempotencyKey: {
+      type: String,
+      unique: true,
+      sparse: true
+    },
+    confirmacionEvento: {
+      type: new mongoose.Schema({
+        eventId: String,
+        type: String,
+        version: Number,
+        occurredAt: String,
+        data: { pedidoId: String }
+      }, { _id: false }),
+      default: undefined
+    },
     notificadoEn: {
       type: Date
     }

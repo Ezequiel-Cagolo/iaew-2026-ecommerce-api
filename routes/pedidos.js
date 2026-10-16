@@ -5,6 +5,8 @@ const Producto = require('../models/Producto');
 const { requireScope } = require('../middleware/auth0');
 const { publicarPedidoConfirmado } = require('../lib/rabbit');
 const crypto = require('crypto');
+const { validateIdempotencyKey } = require('../lib/idempotency');
+const { sendError } = require('../lib/errors');
 
 const router = express.Router();
 
@@ -79,8 +81,58 @@ router.post('/:id/confirmar', requireScope('confirm:pedidos'), async (req, res) 
       return res.status(404).json({ error: 'Pedido no encontrado' });
     }
 
+    const key = req.header('Idempotency-Key');
+    const invalidKey = validateIdempotencyKey(key);
+
+    if (invalidKey) {
+      return sendError(
+        res, 400, invalidKey.error, invalidKey.code, false,
+        'Enviar una clave válida y estable por operación',
+        invalidKey.details
+      );
+    }
+
+    // Misma confirmación: devolver el evento guardado sin tocar stock.
+    if (
+      pedido.estado === 'confirmado' &&
+      pedido.confirmacionIdempotencyKey === key &&
+      pedido.confirmacionEvento?.eventId
+    ) {
+      res.set('Idempotency-Replayed', 'true');
+      return res.status(200).json({
+        pedido,
+        evento: pedido.confirmacionEvento,
+        idempotencia: { key, replayed: true }
+      });
+    }
+
+    if (pedido.estado === 'confirmado') {
+      return sendError(
+        res, 409,
+        'El pedido ya fue confirmado con otra clave',
+        'IDEMPOTENCY_KEY_MISMATCH',
+        false,
+        'Consultar el pedido y no generar una nueva confirmación'
+      );
+    }
+
     if (pedido.estado !== 'pendiente') {
       return res.status(409).json({ error: 'El pedido ya fue confirmado' });
+    }
+
+    const claveUsada = await Pedido.exists({
+      confirmacionIdempotencyKey: key,
+      _id: { $ne: pedido._id }
+    });
+
+    if (claveUsada) {
+      return sendError(
+        res, 409,
+        'La clave de idempotencia ya fue usada en otro pedido',
+        'IDEMPOTENCY_KEY_REUSED',
+        false,
+        'Usar una clave distinta por operación'
+      );
     }
 
     for (const item of pedido.items) {
@@ -101,7 +153,6 @@ router.post('/:id/confirmar', requireScope('confirm:pedidos'), async (req, res) 
 
     pedido.estado = 'confirmado';
     pedido.confirmadoEn = new Date();
-    await pedido.save();
 
     const evento = {
       eventId: crypto.randomUUID(),
@@ -111,17 +162,48 @@ router.post('/:id/confirmar', requireScope('confirm:pedidos'), async (req, res) 
       data: { pedidoId: pedido.id }
     };
 
+    pedido.confirmacionIdempotencyKey = key;
+    pedido.confirmacionEvento = evento;
+
     try {
-      await publicarPedidoConfirmado(evento);
+      await pedido.save();
     } catch (error) {
-      return res.status(503).json({
-        error: 'Pedido confirmado, pero no se pudo publicar la notificación',
-        detalle: 'Consultar el estado del pedido antes de reintentar',
-        pedidoId: pedido.id
-      });
+      if (error?.code === 11000) {
+        return sendError(
+          res, 409,
+          'La clave de idempotencia ya fue usada en otro pedido',
+          'IDEMPOTENCY_KEY_REUSED',
+          false,
+          'Usar una clave distinta por operación'
+        );
+      }
+      throw error;
     }
 
-    res.json({ pedido, evento });
+    try {
+      await publicarPedidoConfirmado(evento);
+
+      res.set('Idempotency-Replayed', 'false');
+      return res.status(200).json({
+        pedido,
+        evento,
+        idempotencia: { key, replayed: false }
+      });
+    } catch (error) {
+      console.error(
+        'Pedido confirmado, pero no se pudo publicar el evento:',
+        error.message
+      );
+
+      return sendError(
+        res, 503,
+        'El pedido quedó confirmado, pero no se pudo publicar la notificación',
+        'CONFIRMATION_EVENT_PUBLISH_FAILED',
+        false,
+        'Consultar el pedido y su notificación antes de reintentar; el replay no republica el evento',
+        { pedidoId: pedido.id, eventId: evento.eventId }
+      );
+    }
   } catch (error) {
     res.status(500).json({ error: 'Error al confirmar pedido' });
   }
