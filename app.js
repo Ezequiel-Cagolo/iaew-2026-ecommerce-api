@@ -3,6 +3,8 @@ const { connectDb } = require('./db');
 const productosRouter = require('./routes/productos');
 const pedidosRouter = require('./routes/pedidos');
 const { validateAccessToken } = require('./middleware/auth0');
+const swaggerUi = require('swagger-ui-express');
+const openapi = require('./docs/openapi.json');
 
 require('dotenv').config();
 
@@ -10,6 +12,20 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
+app.get('/api-docs/openapi.json', (req, res) => {
+  res.json(openapi);
+});
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(null, {
+    swaggerOptions: {
+      url: '/api-docs/openapi.json'
+    }
+  })
+);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });

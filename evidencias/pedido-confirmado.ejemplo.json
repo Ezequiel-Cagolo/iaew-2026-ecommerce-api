@@ -1,0 +1,9 @@
+{
+  "eventId": "b3cf9e44-c2b7-4432-8857-a47e021231fd",
+  "type": "pedido.confirmado",
+  "version": 1,
+  "occurredAt": "2026-10-16T22:02:11.179Z",
+  "data": {
+    "pedidoId": "6ad29ca680f4e1c43108865e"
+  }
+}

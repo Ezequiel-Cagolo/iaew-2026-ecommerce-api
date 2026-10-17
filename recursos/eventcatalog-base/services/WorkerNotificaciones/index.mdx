@@ -1,0 +1,18 @@
+---
+id: WorkerNotificaciones
+name: Worker de notificaciones
+version: 1.0.0
+receives:
+  - id: PedidoConfirmado
+    version: 1.0.0
+---
+
+Consume pedido.confirmado desde RabbitMQ y actualiza el estado
+de notificación del pedido.
+
+Reconoce eventos repetidos mediante eventId y la colección
+EventoProcesado. Las fallas transitorias se reintentan con un límite;
+los errores permanentes o los reintentos agotados se envían a la DLQ.
+
+La reserva del evento y la actualización del pedido son operaciones
+separadas; esta implementación no garantiza exactly once.

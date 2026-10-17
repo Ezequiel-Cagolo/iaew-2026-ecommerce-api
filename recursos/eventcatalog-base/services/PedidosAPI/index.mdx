@@ -1,0 +1,14 @@
+---
+id: PedidosAPI
+name: API de Pedidos
+version: 1.0.0
+sends:
+  - id: PedidoConfirmado
+    version: 1.0.0
+---
+
+Confirma pedidos mediante POST /pedidos/{id}/confirmar y publica
+pedido.confirmado en RabbitMQ.
+
+Utiliza Idempotency-Key para reconocer confirmaciones repetidas
+sin volver a descontar stock ni publicar el evento.

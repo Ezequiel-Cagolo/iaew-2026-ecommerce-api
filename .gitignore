@@ -14,3 +14,9 @@ npm-debug.log*
 /evidencias/*.jpg
 /evidencias/*.jpeg
 /entrega-clase-05*.zip
+/entrega-clase-06*.zip
+/evidencias/clase-06/*.png
+
+/eventcatalog-clase-06/.eventcatalog/
+/eventcatalog-clase-06/dist/
+/eventcatalog-clase-06/.astro/
