@@ -1,0 +1,14 @@
+---
+id: PedidoConfirmado
+name: Pedido confirmado
+version: 1.0.0
+schemaPath: schema.json
+---
+
+Informa que un pedido fue confirmado.
+
+La API de Pedidos publica el mensaje y el Worker de notificaciones
+lo consume.
+
+El mensaje incluye eventId, type, version, occurredAt y data.pedidoId.
+La versión 1.0.0 del catálogo corresponde al campo version: 1 del mensaje.

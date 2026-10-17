@@ -1,0 +1,470 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "IAEW Pedidos API",
+    "version": "1.0.0",
+    "description": "Contrato del flujo de confirmación idempotente de pedidos."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Entorno local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Pedidos",
+      "description": "Operaciones de negocio sobre pedidos"
+    }
+  ],
+  "paths": {
+    "/pedidos/{id}/confirmar": {
+      "post": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Confirmar un pedido una sola vez",
+        "description": "Descuenta stock, confirma el pedido y publica pedido.confirmado. Repetir la misma Idempotency-Key devuelve el evento persistido sin volver a descontar stock ni publicar. El estado de notificación del pedido puede actualizarse entre respuestas. Consultar el estado antes de reintentar un 503; el replay no repara una publicación fallida.",
+        "operationId": "confirmarPedido",
+        "security": [
+          {
+            "oauth2": [
+              "confirm:pedidos"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Identificador MongoDB del pedido",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            },
+            "example": "507f1f77bcf86cd799439011"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Identifica de forma estable una intención de confirmación.",
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9._:-]+$"
+            },
+            "example": "pedido:507f1f77bcf86cd799439011:confirmar:v1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido confirmado o replay de una confirmación anterior.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Indica si se devolvió el resultado persistido.",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "true",
+                    "false"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmacionResponse"
+                },
+                "examples": {
+                  "primeraConfirmacion": {
+                    "value": {
+                      "pedido": {
+                        "cliente": {
+                          "nombre": "Estudiante Demo",
+                          "email": "demo@example.test"
+                        },
+                        "_id": "6ad29ca680f4e1c43108865e",
+                        "estado": "confirmado",
+                        "items": [
+                          {
+                            "productoId": "6ad2931c1ad563d43ef0d17c",
+                            "nombre": "Teclado laboratorio",
+                            "cantidad": 2,
+                            "precioUnitario": 25000
+                          }
+                        ],
+                        "total": 50000,
+                        "notificacionEstado": "pendiente",
+                        "createdAt": "2026-10-16T21:52:38.218Z",
+                        "updatedAt": "2026-10-16T22:02:11.184Z",
+                        "__v": 0,
+                        "confirmadoEn": "2026-10-16T22:02:11.179Z",
+                        "confirmacionIdempotencyKey": "pedido-6ad29ca680f4e1c43108865e",
+                        "confirmacionEvento": {
+                          "eventId": "b3cf9e44-c2b7-4432-8857-a47e021231fd",
+                          "type": "pedido.confirmado",
+                          "version": 1,
+                          "occurredAt": "2026-10-16T22:02:11.179Z",
+                          "data": {
+                            "pedidoId": "6ad29ca680f4e1c43108865e"
+                          }
+                        }
+                      },
+                      "evento": {
+                        "eventId": "b3cf9e44-c2b7-4432-8857-a47e021231fd",
+                        "type": "pedido.confirmado",
+                        "version": 1,
+                        "occurredAt": "2026-10-16T22:02:11.179Z",
+                        "data": {
+                          "pedidoId": "6ad29ca680f4e1c43108865e"
+                        }
+                      },
+                      "idempotencia": {
+                        "key": "pedido-6ad29ca680f4e1c43108865e",
+                        "replayed": false
+                      }
+                    }
+                  },
+                  "replay": {
+                    "value": {
+                      "pedido": {
+                        "cliente": {
+                          "nombre": "Estudiante Demo",
+                          "email": "demo@example.test"
+                        },
+                        "_id": "6ad29ca680f4e1c43108865e",
+                        "estado": "confirmado",
+                        "items": [
+                          {
+                            "productoId": "6ad2931c1ad563d43ef0d17c",
+                            "nombre": "Teclado laboratorio",
+                            "cantidad": 2,
+                            "precioUnitario": 25000
+                          }
+                        ],
+                        "total": 50000,
+                        "notificacionEstado": "procesada",
+                        "createdAt": "2026-10-16T21:52:38.218Z",
+                        "updatedAt": "2026-10-16T22:02:11.461Z",
+                        "__v": 0,
+                        "confirmadoEn": "2026-10-16T22:02:11.179Z",
+                        "confirmacionIdempotencyKey": "pedido-6ad29ca680f4e1c43108865e",
+                        "confirmacionEvento": {
+                          "eventId": "b3cf9e44-c2b7-4432-8857-a47e021231fd",
+                          "type": "pedido.confirmado",
+                          "version": 1,
+                          "occurredAt": "2026-10-16T22:02:11.179Z",
+                          "data": {
+                            "pedidoId": "6ad29ca680f4e1c43108865e"
+                          }
+                        },
+                        "notificadoEn": "2026-10-16T22:02:11.458Z"
+                      },
+                      "evento": {
+                        "eventId": "b3cf9e44-c2b7-4432-8857-a47e021231fd",
+                        "type": "pedido.confirmado",
+                        "version": 1,
+                        "occurredAt": "2026-10-16T22:02:11.179Z",
+                        "data": {
+                          "pedidoId": "6ad29ca680f4e1c43108865e"
+                        }
+                      },
+                      "idempotencia": {
+                        "key": "pedido-6ad29ca680f4e1c43108865e",
+                        "replayed": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "description": "Error interno al confirmar el pedido.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Error al confirmar pedido"
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://dev-86tfvf3e4atlkcd4.us.auth0.com/oauth/token",
+            "scopes": {
+              "confirm:pedidos": "Confirmar pedidos"
+            }
+          }
+        },
+        "x-audience": "https://iaew-pedidos-api"
+      }
+    },
+    "schemas": {
+      "EventoPedidoConfirmado": {
+        "type": "object",
+        "required": [
+          "eventId",
+          "type",
+          "version",
+          "occurredAt",
+          "data"
+        ],
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "const": "pedido.confirmado"
+          },
+          "version": {
+            "const": 1
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "pedidoId"
+            ],
+            "properties": {
+              "pedidoId": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ConfirmacionResponse": {
+        "type": "object",
+        "required": [
+          "pedido",
+          "evento",
+          "idempotencia"
+        ],
+        "properties": {
+          "pedido": {
+            "type": "object",
+            "description": "Pedido confirmado"
+          },
+          "evento": {
+            "$ref": "#/components/schemas/EventoPedidoConfirmado"
+          },
+          "idempotencia": {
+            "type": "object",
+            "required": [
+              "key",
+              "replayed"
+            ],
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "replayed": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "action": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "description": "Todas las respuestas de error incluyen error. Los errores de clave de idempotencia y de publicación incluyen además code, retryable y action."
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Solicitud o Idempotency-Key inválida",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "idInvalido": {
+                "value": {
+                  "error": "ID de pedido inválido"
+                }
+              },
+              "claveAusente": {
+                "value": {
+                  "error": "El header Idempotency-Key es obligatorio",
+                  "code": "IDEMPOTENCY_KEY_REQUIRED",
+                  "retryable": false,
+                  "action": "Enviar una clave válida y estable por operación"
+                }
+              },
+              "claveInvalida": {
+                "value": {
+                  "error": "Idempotency-Key debe tener entre 8 y 128 caracteres permitidos",
+                  "code": "IDEMPOTENCY_KEY_INVALID",
+                  "retryable": false,
+                  "action": "Enviar una clave válida y estable por operación",
+                  "details": {
+                    "pattern": "[A-Za-z0-9._:-]",
+                    "minLength": 8,
+                    "maxLength": 128
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Token ausente, inválido o expirado",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Token ausente, inválido o expirado"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Falta el scope confirm:pedidos",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Permisos insuficientes para ejecutar la acción"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Pedido inexistente",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Pedido no encontrado"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Estado, stock o clave incompatible",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "otraClave": {
+                "value": {
+                  "error": "El pedido ya fue confirmado con otra clave",
+                  "code": "IDEMPOTENCY_KEY_MISMATCH",
+                  "retryable": false,
+                  "action": "Consultar el pedido y no generar una nueva confirmación"
+                }
+              },
+              "claveReutilizada": {
+                "value": {
+                  "error": "La clave de idempotencia ya fue usada en otro pedido",
+                  "code": "IDEMPOTENCY_KEY_REUSED",
+                  "retryable": false,
+                  "action": "Usar una clave distinta por operación"
+                }
+              },
+              "stockInsuficiente": {
+                "value": {
+                  "error": "No hay stock suficiente para Teclado laboratorio"
+                }
+              },
+              "estadoIncompatible": {
+                "value": {
+                  "error": "El pedido ya fue confirmado"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unavailable": {
+        "description": "El pedido quedó confirmado, pero falló la publicación del evento. Consultar el pedido y su notificación antes de reintentar. Repetir la misma clave devuelve el evento guardado, pero no lo republica.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "El pedido quedó confirmado, pero no se pudo publicar la notificación",
+              "code": "CONFIRMATION_EVENT_PUBLISH_FAILED",
+              "retryable": false,
+              "action": "Consultar el pedido y su notificación antes de reintentar; el replay no republica el evento",
+              "details": {
+                "pedidoId": "6ad29ca680f4e1c43108865e",
+                "eventId": "b3cf9e44-c2b7-4432-8857-a47e021231fd"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
