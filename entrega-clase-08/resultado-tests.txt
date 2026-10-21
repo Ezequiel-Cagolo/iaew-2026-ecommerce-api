@@ -1,0 +1,206 @@
+
+> iaew-clase08-t03-inicio@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: MCP descubre tres tools con schemas de salida y el resource estático
+ok 1 - MCP descubre tres tools con schemas de salida y el resource estático
+  ---
+  duration_ms: 833.7341
+  type: 'test'
+  ...
+# Subtest: listado de pendientes filtra por estado, limita a 10 y proyecta sólo ID y estado
+ok 2 - listado de pendientes filtra por estado, limita a 10 y proyecta sólo ID y estado
+  ---
+  duration_ms: 862.9267
+  type: 'test'
+  ...
+# Subtest: listado de pendientes informa errores de la API sin datos crudos
+ok 3 - listado de pendientes informa errores de la API sin datos crudos
+  ---
+  duration_ms: 574.4923
+  type: 'test'
+  ...
+# {"event":"host.tool","correlationId":"8f4ce6e1-4f0b-4a57-9a7c-de9310ac7df3","tool":"listar_pedidos_pendientes","operation":"listar_pedidos_pendientes","result":"dispatched"}
+# {"event":"host.tool","correlationId":"8f4ce6e1-4f0b-4a57-9a7c-de9310ac7df3","tool":"listar_pedidos_pendientes","operation":"listar_pedidos_pendientes","result":"ok","durationMs":55}
+# Subtest: el host ejecuta el listado sin aprobación y no acepta argumentos propuestos por el modelo
+ok 4 - el host ejecuta el listado sin aprobación y no acepta argumentos propuestos por el modelo
+  ---
+  duration_ms: 610.5153
+  type: 'test'
+  ...
+# Subtest: consulta proyecta sólo ID y estado, excluye PII e inyección indirecta
+ok 5 - consulta proyecta sólo ID y estado, excluye PII e inyección indirecta
+  ---
+  duration_ms: 591.6745
+  type: 'test'
+  ...
+# Subtest: ID inválido y pedido ausente devuelven errores con el schema mínimo
+ok 6 - ID inválido y pedido ausente devuelven errores con el schema mínimo
+  ---
+  duration_ms: 679.6663
+  type: 'test'
+  ...
+# {"event":"host.approval","correlationId":"f6a52d65-9403-4a18-81d1-f4558fed3ccb","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"rejected"}
+# {"event":"host.approval","correlationId":"c8288fa7-7427-491b-942d-1b94e0537d24","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"approved"}
+# {"event":"host.tool","correlationId":"c8288fa7-7427-491b-942d-1b94e0537d24","tool":"confirmar_pedido","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"dispatched"}
+# {"event":"host.tool","correlationId":"c8288fa7-7427-491b-942d-1b94e0537d24","tool":"confirmar_pedido","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"confirmado","durationMs":1}
+# Subtest: confirmación sin aprobación o con booleano no muta el pedido
+ok 7 - confirmación sin aprobación o con booleano no muta el pedido
+  ---
+  duration_ms: 575.734
+  type: 'test'
+  ...
+# Subtest: aprobación sólo se emite ante texto exacto y queda vinculada a acción/pedido
+ok 8 - aprobación sólo se emite ante texto exacto y queda vinculada a acción/pedido
+  ---
+  duration_ms: 1.036
+  type: 'test'
+  ...
+# Subtest: propuesta de modelo debe coincidir exactamente con la intención explícita
+ok 9 - propuesta de modelo debe coincidir exactamente con la intención explícita
+  ---
+  duration_ms: 0.5661
+  type: 'test'
+  ...
+# Subtest: el host detiene la inyección directa y pide el ID faltante sin llamar al modelo/tool
+ok 10 - el host detiene la inyección directa y pide el ID faltante sin llamar al modelo/tool
+  ---
+  duration_ms: 1.5174
+  type: 'test'
+  ...
+# Subtest: host rechaza la confirmación si el operador no aprueba exactamente
+ok 11 - host rechaza la confirmación si el operador no aprueba exactamente
+  ---
+  duration_ms: 0.9182
+  type: 'test'
+  ...
+# Subtest: host firma aprobación ligada a operación e ID y conserva la clave fuera de argumentos
+ok 12 - host firma aprobación ligada a operación e ID y conserva la clave fuera de argumentos
+  ---
+  duration_ms: 1.227
+  type: 'test'
+  ...
+# Subtest: confirmación exacta aprobada funciona y replay conserva la clave idempotente
+ok 13 - confirmación exacta aprobada funciona y replay conserva la clave idempotente
+  ---
+  duration_ms: 571.242
+  type: 'test'
+  ...
+# Subtest: firma alterada, aprobación de otro pedido y vencimiento no mutan
+ok 14 - firma alterada, aprobación de otro pedido y vencimiento no mutan
+  ---
+  duration_ms: 1031.0058
+  type: 'test'
+  ...
+# Subtest: scope insuficiente se distingue y no cambia el pedido
+ok 15 - scope insuficiente se distingue y no cambia el pedido
+  ---
+  duration_ms: 664.8093
+  type: 'test'
+  ...
+# Subtest: conflicto de negocio devuelve error mínimo y no presenta datos crudos
+ok 16 - conflicto de negocio devuelve error mínimo y no presenta datos crudos
+  ---
+  duration_ms: 710.3938
+  type: 'test'
+  ...
+# Subtest: 503 se informa como parcial y no se reintenta automáticamente
+ok 17 - 503 se informa como parcial y no se reintenta automáticamente
+  ---
+  duration_ms: 619.4291
+  type: 'test'
+  ...
+# {"event":"host.tool","correlationId":"f2a0961f-76d8-4370-97fe-7c7e15ad59a6","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"dispatched"}
+# {"event":"host.tool","correlationId":"f2a0961f-76d8-4370-97fe-7c7e15ad59a6","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"pendiente","durationMs":0}
+# Subtest: timeout de POST informa estado indeterminado sin segundo POST
+ok 18 - timeout de POST informa estado indeterminado sin segundo POST
+  ---
+  duration_ms: 5652.9078
+  type: 'test'
+  ...
+# Subtest: límite de entrada bloquea propuestas y salida del modelo supera el límite
+ok 19 - límite de entrada bloquea propuestas y salida del modelo supera el límite
+  ---
+  duration_ms: 1.8319
+  type: 'test'
+  ...
+# Subtest: el host no acepta texto del modelo como sustituto de la tool requerida
+ok 20 - el host no acepta texto del modelo como sustituto de la tool requerida
+  ---
+  duration_ms: 1.1519
+  type: 'test'
+  ...
+# {"event":"host.tool","correlationId":"b1ea5487-c2d4-4985-8309-c97d191e7e8d","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"dispatched"}
+# {"event":"host.tool","correlationId":"b1ea5487-c2d4-4985-8309-c97d191e7e8d","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"pendiente","durationMs":43}
+# Subtest: el host no pasa texto malicioso de respuesta indirecta al modelo
+ok 21 - el host no pasa texto malicioso de respuesta indirecta al modelo
+  ---
+  duration_ms: 633.1124
+  type: 'test'
+  ...
+# Subtest: WebSocket rechaza Origin ajeno y cookie ausente
+ok 22 - WebSocket rechaza Origin ajeno y cookie ausente
+  ---
+  duration_ms: 79.8704
+  type: 'test'
+  ...
+# Subtest: resource explícito, JSON inválido y requestId repetido no ejecutan tools
+ok 23 - resource explícito, JSON inválido y requestId repetido no ejecutan tools
+  ---
+  duration_ms: 47.5666
+  type: 'test'
+  ...
+# {"event":"host.approval","correlationId":"18387662-df4c-4bf5-ba9d-13304ec1b663","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"approved"}
+# {"event":"host.tool","correlationId":"18387662-df4c-4bf5-ba9d-13304ec1b663","tool":"confirmar_pedido","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"dispatched"}
+# {"event":"host.tool","correlationId":"18387662-df4c-4bf5-ba9d-13304ec1b663","tool":"confirmar_pedido","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"confirmado","durationMs":2}
+# Subtest: aprobación de otra sesión rechazada; replay original conserva clave y efecto único
+ok 24 - aprobación de otra sesión rechazada; replay original conserva clave y efecto único
+  ---
+  duration_ms: 46.6064
+  type: 'test'
+  ...
+# {"event":"host.approval","correlationId":"4fd6a7c2-a0b0-42cd-9750-ef580432ece6","operation":"confirmar_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"rejected"}
+# Subtest: rechazo, expiración y desconexión no despachan la mutación
+ok 25 - rechazo, expiración y desconexión no despachan la mutación
+  ---
+  duration_ms: 160.6372
+  type: 'test'
+  ...
+# {"event":"host.tool","correlationId":"eb41c11c-8592-4e34-a52d-b80c61cf8e0b","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"dispatched"}
+# {"event":"host.tool","correlationId":"eb41c11c-8592-4e34-a52d-b80c61cf8e0b","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"confirmado","durationMs":1}
+# {"event":"host.tool","correlationId":"e28b7715-5582-48cc-b597-271b14fa8ca8","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"dispatched"}
+# {"event":"host.tool","correlationId":"e28b7715-5582-48cc-b597-271b14fa8ca8","tool":"consultar_estado_pedido","operation":"consultar_estado_pedido","pedidoId":"507f1f77bcf86cd799439011","result":"confirmado","durationMs":0}
+# Subtest: límites de mensajes y payload impiden trabajo adicional
+ok 26 - límites de mensajes y payload impiden trabajo adicional
+  ---
+  duration_ms: 21.0229
+  type: 'test'
+  ...
+# Subtest: resultado autoritativo permanece aunque el modelo contradiga o esté vacío
+ok 27 - resultado autoritativo permanece aunque el modelo contradiga o esté vacío
+  ---
+  duration_ms: 2.2484
+  type: 'test'
+  ...
+# Subtest: aprobación web muestra el deadline efectivo restante y parcial no habilita replay
+ok 28 - aprobación web muestra el deadline efectivo restante y parcial no habilita replay
+  ---
+  duration_ms: 85.7521
+  type: 'test'
+  ...
+# Subtest: replay fallido o vencido no conserva permiso para otra llamada
+ok 29 - replay fallido o vencido no conserva permiso para otra llamada
+  ---
+  duration_ms: 0.6623
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15602.8507
