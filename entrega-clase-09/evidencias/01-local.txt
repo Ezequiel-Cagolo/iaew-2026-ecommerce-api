@@ -1,0 +1,156 @@
+
+> iaew-clase-09-cloud@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: responde health, version y consulta de pedidos
+ok 1 - responde health, version y consulta de pedidos
+  ---
+  duration_ms: 202.6046
+  type: 'test'
+  ...
+# Subtest: crea un pedido con POST y luego lo consulta
+ok 2 - crea un pedido con POST y luego lo consulta
+  ---
+  duration_ms: 29.5222
+  type: 'test'
+  ...
+# Subtest: valida el cuerpo del POST y los métodos
+ok 3 - valida el cuerpo del POST y los métodos
+  ---
+  duration_ms: 30.3188
+  type: 'test'
+  ...
+# {"msg":"error_interno","detalle":"sin_conexion"}
+# Subtest: sin base: /health y /pedidos responden 503
+ok 4 - sin base: /health y /pedidos responden 503
+  ---
+  duration_ms: 12.4049
+  type: 'test'
+  ...
+# Subtest: CLI simulada: base antes de imagen/aplicacion y limpieza en orden inverso
+ok 5 - CLI simulada: base antes de imagen/aplicacion y limpieza en orden inverso
+  ---
+  duration_ms: 3450.8186
+  type: 'test'
+  ...
+# Subtest: CLI simulada: sin base no se publica imagen ni se crea aplicacion
+ok 6 - CLI simulada: sin base no se publica imagen ni se crea aplicacion
+  ---
+  duration_ms: 485.3705
+  type: 'test'
+  ...
+# Subtest: CLI simulada: base incompleta y cantidad invalida impiden desplegar
+ok 7 - CLI simulada: base incompleta y cantidad invalida impiden desplegar
+  ---
+  duration_ms: 290.051
+  type: 'test'
+  ...
+# Subtest: CLI simulada: un error de consulta no se interpreta como recursos ausentes
+ok 8 - CLI simulada: un error de consulta no se interpreta como recursos ausentes
+  ---
+  duration_ms: 205.7851
+  type: 'test'
+  ...
+# Subtest: CLI simulada: recurso retenido impide declarar limpieza exitosa
+ok 9 - CLI simulada: recurso retenido impide declarar limpieza exitosa
+  ---
+  duration_ms: 1600.0173
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6200.4047
+ Network iaew-clase09_default Creating 
+ Volume iaew-clase09_mongo-data Creating 
+ Network iaew-clase09_default Creating 
+ Volume iaew-clase09_mongo-data Creating 
+ Volume iaew-clase09_mongo-data Created 
+ Volume iaew-clase09_mongo-data Created 
+ Network iaew-clase09_default Created 
+ Network iaew-clase09_default Created 
+ Container iaew-clase09-mongodb-1 Creating 
+ Container iaew-clase09-mongodb-1 Created 
+ Container iaew-clase09-api-1 Creating 
+ Container iaew-clase09-api-1 Created 
+ Container iaew-clase09-mongodb-1 Starting 
+ Container iaew-clase09-mongodb-1 Started 
+ Container iaew-clase09-mongodb-1 Waiting 
+ Container iaew-clase09-mongodb-1 Healthy 
+ Container iaew-clase09-api-1 Starting 
+ Container iaew-clase09-api-1 Started 
+NAME                     IMAGE            COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+iaew-clase09-api-1       iaew-api:local   "docker-entrypoint.s…"   api       15 seconds ago   Up 5 seconds              127.0.0.1:8080->8080/tcp
+iaew-clase09-mongodb-1   mongo:7.0.21     "docker-entrypoint.s…"   mongodb   15 seconds ago   Up 14 seconds (healthy)   27017/tcp
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    25    0    25    0     0     97      0 --:--:-- --:--:-- --:--:--    97HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Thu, 05 Nov 2026 14:42:32 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"status":"ok","db":"up"}
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   103    0   103    0     0    473      0 --:--:-- --:--:-- --:--:--   474HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Thu, 05 Nov 2026 14:42:39 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+[{"id":"P-1001","estado":"CONFIRMADO","total":15200},{"id":"P-1002","estado":"PENDIENTE","total":8400}]
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    67    0    53  100    14    239     63 --:--:-- --:--:-- --:--:--   301HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+Date: Thu, 05 Nov 2026 14:42:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"id":"P-MW3NNE8U","estado":"PENDIENTE","total":4300}
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   157    0   157    0     0    733      0 --:--:-- --:--:-- --:--:--   733HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Thu, 05 Nov 2026 14:42:55 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+[{"id":"P-1001","estado":"CONFIRMADO","total":15200},{"id":"P-1002","estado":"PENDIENTE","total":8400},{"id":"P-MW3NNE8U","estado":"PENDIENTE","total":4300}]
+bash: [200~docker: command not found
+ Container iaew-clase09-api-1 Stopping 
+ Container iaew-clase09-api-1 Stopped 
+ Container iaew-clase09-api-1 Removing 
+ Container iaew-clase09-api-1 Removed 
+ Container iaew-clase09-mongodb-1 Stopping 
+ Container iaew-clase09-mongodb-1 Stopped 
+ Container iaew-clase09-mongodb-1 Removing 
+ Container iaew-clase09-mongodb-1 Removed 
+ Network iaew-clase09_default Removing 
+ Network iaew-clase09_default Removed 
+ Network iaew-clase09_default Creating 
+ Network iaew-clase09_default Creating 
+ Network iaew-clase09_default Created 
+ Network iaew-clase09_default Created 
+ Container iaew-clase09-mongodb-1 Creating 
+ Container iaew-clase09-mongodb-1 Created 
+ Container iaew-clase09-api-1 Creating 
+ Container iaew-clase09-api-1 Created 
+ Container iaew-clase09-mongodb-1 Starting 
+ Container iaew-clase09-mongodb-1 Started 
+ Container iaew-clase09-mongodb-1 Waiting 
+ Container iaew-clase09-mongodb-1 Healthy 
+ Container iaew-clase09-api-1 Starting 
+ Container iaew-clase09-api-1 Started 
+[{"id":"P-1001","estado":"CONFIRMADO","total":15200},{"id":"P-1002","estado":"PENDIENTE","total":8400},{"id":"P-MW3NNE8U","estado":"PENDIENTE","total":4300}]cfn-lint: codigo de salida 0

@@ -1,0 +1,119 @@
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - iaew-clase-09-base
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|                                                                                DescribeStacks                                                                                 |
++----------------------------------------+----------------------+---------------------------------------------------------------------------------------------------------------+
+|               ExportName               |      OutputKey       |                                                  OutputValue                                                  |
++----------------------------------------+----------------------+---------------------------------------------------------------------------------------------------------------+
+|  iaew-clase-09-base-ClusterArn         |  ClusterArn          |  arn:aws:ecs:us-east-1:813990028456:cluster/iaew-clase-09-base-Cluster-Gpi1w5DfdUAz                           |
+|  iaew-clase-09-base-TargetGroupArn     |  TargetGroupArn      |  arn:aws:elasticloadbalancing:us-east-1:813990028456:targetgroup/iaew-c-Targe-AOYENP7OID7M/32c2c3193e12efa6   |
+|  iaew-clase-09-base-ApiUrl             |  ApiUrl              |  http://iaew-c-LoadB-jOQM1waDNxyZ-1188704845.us-east-1.elb.amazonaws.com                                      |
+|                                        |  VpcId               |  vpc-05bb65e2bb465e5d7                                                                                        |
+|  iaew-clase-09-base-TaskSecurityGroupId|  TaskSecurityGroupId |  sg-09e3f0957f9a61b44                                                                                         |
+|  iaew-clase-09-base-LogGroupName       |  LogGroupName        |  /ecs/iaew-clase-09-base                                                                                      |
+|                                        |  RepositoryUri       |  813990028456.dkr.ecr.us-east-1.amazonaws.com/iaew-clase-09-base-api                                          |
+|  iaew-clase-09-base-SubnetIds          |  SubnetIds           |  subnet-0e2992d861037528d,subnet-0c56ccde41ecedd46                                                            |
++----------------------------------------+----------------------+---------------------------------------------------------------------------------------------------------------+
+
+=== Comprobaciones ejecutadas por el estudiante (transcripcion de terminal) ===
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   echo "=== Estado del stack base ==="
+=== Estado del stack base ===
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   aws cloudformation describe-stacks \
+>     --stack-name iaew-clase-09-base \
+>     --query 'Stacks[0].StackStatus' --output text
+CREATE_COMPLETE
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$ 
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   echo "=== Recursos del stack base ==="
+=== Recursos del stack base ===
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   aws cloudformation describe-stack-resources \
+>     --stack-name iaew-clase-09-base \
+>     --query 'StackResources[].{Recurso:LogicalResourceId,Tipo:ResourceType,Estado:ResourceStatus}' \
+>     --output table
+--------------------------------------------------------------------------------------------------
+|                                     DescribeStackResources                                     |
++-----------------+--------------------------------+---------------------------------------------+
+|     Estado      |            Recurso             |                    Tipo                     |
++-----------------+--------------------------------+---------------------------------------------+
+|  CREATE_COMPLETE|  AlbSecurityGroup              |  AWS::EC2::SecurityGroup                    |
+|  CREATE_COMPLETE|  Cluster                       |  AWS::ECS::Cluster                          |
+|  CREATE_COMPLETE|  InternetGateway               |  AWS::EC2::InternetGateway                  |
+|  CREATE_COMPLETE|  InternetGatewayAttachment     |  AWS::EC2::VPCGatewayAttachment             |
+|  CREATE_COMPLETE|  InternetRoute                 |  AWS::EC2::Route                            |
+|  CREATE_COMPLETE|  Listener                      |  AWS::ElasticLoadBalancingV2::Listener      |
+|  CREATE_COMPLETE|  LoadBalancer                  |  AWS::ElasticLoadBalancingV2::LoadBalancer  |
+|  CREATE_COMPLETE|  LogGroup                      |  AWS::Logs::LogGroup                        |
+|  CREATE_COMPLETE|  PublicRouteTable              |  AWS::EC2::RouteTable                       |
+|  CREATE_COMPLETE|  PublicSubnetA                 |  AWS::EC2::Subnet                           |
+|  CREATE_COMPLETE|  PublicSubnetB                 |  AWS::EC2::Subnet                           |
+|  CREATE_COMPLETE|  Repository                    |  AWS::ECR::Repository                       |
+|  CREATE_COMPLETE|  SubnetARouteTableAssociation  |  AWS::EC2::SubnetRouteTableAssociation      |
+|  CREATE_COMPLETE|  SubnetBRouteTableAssociation  |  AWS::EC2::SubnetRouteTableAssociation      |
+|  CREATE_COMPLETE|  TargetGroup                   |  AWS::ElasticLoadBalancingV2::TargetGroup   |
+|  CREATE_COMPLETE|  TaskSecurityGroup             |  AWS::EC2::SecurityGroup                    |
+|  CREATE_COMPLETE|  Vpc                           |  AWS::EC2::VPC                              |
++-----------------+--------------------------------+---------------------------------------------+
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$ 
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   API_URL=$(aws cloudformation describe-stacks \
+>     --stack-name iaew-clase-09-base \
+>     --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue | [0]' \
+>     --output text)
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$ 
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   TARGET_GROUP_ARN=$(aws cloudformation describe-stacks \
+>     --stack-name iaew-clase-09-base \
+>     --query 'Stacks[0].Outputs[?OutputKey==`TargetGroupArn`].OutputValue | [0]' \
+>     --output text)
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$ 
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   CLUSTER_ARN=$(aws cloudformation describe-stacks \
+>     --stack-name iaew-clase-09-base \
+>     --query 'Stacks[0].Outputs[?OutputKey==`ClusterArn`].OutputValue | [0]' \
+>     --output text)
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$ 
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   echo "=== Tareas antes del despliegue ==="
+=== Tareas antes del despliegue ===
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   aws ecs list-tasks --cluster "$CLUSTER_ARN" --output json
+{
+    "taskArns": []
+}
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$ 
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   echo "=== Destinos antes del despliegue ==="
+=== Destinos antes del despliegue ===
+
+Usuario@DESKTOP-TEG9ETA MINGW64 ~/OneDrive/Documentos/Integracion de aplicaciones/practico/iaew-2026-ecommerce-api/clases/clase-09/recursos/laboratorio (codex/clase09)
+$   aws elbv2 describe-target-health \
+>     --target-group-arn "$TARGET_GROUP_ARN" --output json
+{
+    "TargetHealthDescriptions": []
+}

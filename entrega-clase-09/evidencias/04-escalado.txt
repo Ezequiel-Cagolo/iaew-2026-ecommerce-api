@@ -1,0 +1,30 @@
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - iaew-clase-09
+-------------------------------------------------------
+|                   DescribeStacks                    |
++--------------+--------------------------------------+
+|   OutputKey  |             OutputValue              |
++--------------+--------------------------------------+
+|  ServiceName |  iaew-clase-09-Service-wKtiFTw2n4b4  |
++--------------+--------------------------------------+
+UPDATE_COMPLETE
+--------------------------------------
+|        DescribeTargetHealth        |
++---------+---------------+----------+
+| Estado  |      IP       | Puerto   |
++---------+---------------+----------+
+|  healthy|  10.90.1.147  |  8080    |
+|  healthy|  10.90.2.75   |  8080    |
++---------+---------------+----------+
+{"version":"1.0.0","instancia":"ip-10-90-1-147.ec2.internal"}  "id":"P-1001" "id":"P-1002" 
+{"version":"1.0.0","instancia":"ip-10-90-2-75.ec2.internal"}  "id":"P-1001" "id":"P-1002" "id":"P-MW3NZTBI" 
+{"version":"1.0.0","instancia":"ip-10-90-1-147.ec2.internal"}  "id":"P-1001" "id":"P-1002" 
+{"version":"1.0.0","instancia":"ip-10-90-1-147.ec2.internal"}  "id":"P-1001" "id":"P-1002" 
+{"version":"1.0.0","instancia":"ip-10-90-2-75.ec2.internal"}  "id":"P-1001" "id":"P-1002" "id":"P-MW3NZTBI" 
+{"version":"1.0.0","instancia":"ip-10-90-2-75.ec2.internal"}  "id":"P-1001" "id":"P-1002" "id":"P-MW3NZTBI" 
+{"version":"1.0.0","instancia":"ip-10-90-2-75.ec2.internal"}  "id":"P-1001" "id":"P-1002" "id":"P-MW3NZTBI" 
+{"version":"1.0.0","instancia":"ip-10-90-1-147.ec2.internal"}  "id":"P-1001" "id":"P-1002" 
+{"version":"1.0.0","instancia":"ip-10-90-1-147.ec2.internal"}  "id":"P-1001" "id":"P-1002" 
+{"version":"1.0.0","instancia":"ip-10-90-1-147.ec2.internal"}  "id":"P-1001" "id":"P-1002" 
