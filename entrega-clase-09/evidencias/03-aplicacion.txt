@@ -1,0 +1,181 @@
+Login Succeeded
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 217B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:22.17.0-bookworm-slim
+#2 DONE 1.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 67B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 161B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/5] FROM docker.io/library/node:22.17.0-bookworm-slim@sha256:b04ce4ae4e95b522112c2e5c52f781471a5cbc3b594527bcddedee9bc48c03a0
+#5 resolve docker.io/library/node:22.17.0-bookworm-slim@sha256:b04ce4ae4e95b522112c2e5c52f781471a5cbc3b594527bcddedee9bc48c03a0 0.0s done
+#5 DONE 0.1s
+
+#6 [4/5] RUN npm ci --omit=dev
+#6 CACHED
+
+#7 [2/5] WORKDIR /app
+#7 CACHED
+
+#8 [3/5] COPY package.json package-lock.json ./
+#8 CACHED
+
+#9 [5/5] COPY src ./src
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 exporting manifest sha256:f3e8d53df8fad18eb5167f901be84d4df50f3c5b3df2dfacce2510019e6deb6d 0.0s done
+#10 exporting config sha256:4f45937d1dcf324a7ee8389c88697226f5f6deaf1fb6b9dec56203b3d1a45f84 0.0s done
+#10 exporting attestation manifest sha256:5da72fcf58969b4f39ca76ab25872b6532d04752f828f181537c611015fcc19a
+#10 exporting attestation manifest sha256:5da72fcf58969b4f39ca76ab25872b6532d04752f828f181537c611015fcc19a 0.0s done
+#10 exporting manifest list sha256:518cbdb6080d585288105c37d4898d438214fa1cffaf7750631dbf3b521ec97e 0.0s done
+#10 naming to 813990028456.dkr.ecr.us-east-1.amazonaws.com/iaew-clase-09-base-api:1.0.0 done
+#10 unpacking to 813990028456.dkr.ecr.us-east-1.amazonaws.com/iaew-clase-09-base-api:1.0.0 done
+#10 DONE 0.2s
+The push refers to repository [813990028456.dkr.ecr.us-east-1.amazonaws.com/iaew-clase-09-base-api]
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+3da95a905ed5: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+0b420cf1c884: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+3da95a905ed5: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+0b420cf1c884: Waiting
+e335ab7d03cf: Waiting
+44136fa355b3: Waiting
+3da95a905ed5: Waiting
+c97181438030: Waiting
+0b420cf1c884: Pushed
+e335ab7d03cf: Pushed
+44136fa355b3: Pushed
+c97181438030: Waiting
+58e444f52c3d: Waiting
+045e1270451b: Waiting
+a0d0ec470e0d: Waiting
+c97181438030: Waiting
+58e444f52c3d: Waiting
+045e1270451b: Waiting
+a0d0ec470e0d: Waiting
+c97181438030: Waiting
+58e444f52c3d: Waiting
+045e1270451b: Waiting
+a0d0ec470e0d: Waiting
+58e444f52c3d: Waiting
+045e1270451b: Waiting
+a0d0ec470e0d: Waiting
+045e1270451b: Pushed
+a0d0ec470e0d: Pushed
+ba8a6a34054e: Waiting
+2b13ae0bdaba: Waiting
+ba8a6a34054e: Waiting
+2b13ae0bdaba: Waiting
+ba8a6a34054e: Waiting
+2b13ae0bdaba: Waiting
+ba8a6a34054e: Waiting
+2b13ae0bdaba: Waiting
+2b13ae0bdaba: Waiting
+ba8a6a34054e: Pushed
+42a963480400: Waiting
+58e444f52c3d: Pushed
+42a963480400: Waiting
+42a963480400: Waiting
+42a963480400: Waiting
+42a963480400: Pushed
+3da95a905ed5: Pushed
+2b13ae0bdaba: Pushed
+c97181438030: Pushed
+1.0.0: digest: sha256:518cbdb6080d585288105c37d4898d438214fa1cffaf7750631dbf3b521ec97e size: 856
+ImageUri=813990028456.dkr.ecr.us-east-1.amazonaws.com/iaew-clase-09-base-api:1.0.0
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - iaew-clase-09
+-------------------------------------------------------
+|                   DescribeStacks                    |
++--------------+--------------------------------------+
+|   OutputKey  |             OutputValue              |
++--------------+--------------------------------------+
+|  ServiceName |  iaew-clase-09-Service-wKtiFTw2n4b4  |
++--------------+--------------------------------------+
+CREATE_COMPLETE
+--------------------------------------
+|        DescribeTargetHealth        |
++---------+---------------+----------+
+| Estado  |      IP       | Puerto   |
++---------+---------------+----------+
+|  healthy|  10.90.1.147  |  8080    |
++---------+---------------+----------+
+HTTP/1.1 200 OK
+Date: Thu, 05 Nov 2026 14:51:35 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+{"status":"ok","db":"up"}HTTP/1.1 200 OK
+Date: Thu, 05 Nov 2026 14:51:48 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+{"version":"1.0.0","instancia":"ip-10-90-1-147.ec2.internal"}HTTP/1.1 200 OK
+Date: Thu, 05 Nov 2026 14:52:06 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+[{"id":"P-1001","estado":"CONFIRMADO","total":15200},{"id":"P-1002","estado":"PENDIENTE","total":8400}]HTTP/1.1 404 Not Found
+Date: Thu, 05 Nov 2026 14:52:09 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+{"error":"pedido_no_encontrado"}HTTP/1.1 201 Created
+Date: Thu, 05 Nov 2026 14:52:25 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+{"id":"P-MW3NZTBI","estado":"PENDIENTE","total":4300}

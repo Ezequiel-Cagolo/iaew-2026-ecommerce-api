@@ -1,0 +1,15 @@
+ Container iaew-clase09-api-1 Stopping 
+ Container iaew-clase09-api-1 Stopped 
+ Container iaew-clase09-api-1 Removing 
+ Container iaew-clase09-api-1 Removed 
+ Container iaew-clase09-mongodb-1 Stopping 
+ Container iaew-clase09-mongodb-1 Stopped 
+ Container iaew-clase09-mongodb-1 Removing 
+ Container iaew-clase09-mongodb-1 Removed 
+ Volume iaew-clase09_mongo-data Removing 
+ Network iaew-clase09_default Removing 
+ Volume iaew-clase09_mongo-data Removed 
+ Network iaew-clase09_default Removed 
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+Limpieza verificada: stacks iaew-clase-09 y iaew-clase-09-base eliminados o ausentes.
+La base incluye VPC, red, ALB, ECR (con sus imágenes), cluster y logs; LabRole pertenece al Learner Lab.
